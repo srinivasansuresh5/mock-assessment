@@ -2,7 +2,7 @@ const optionLabels = ["A", "B", "C", "D"];
 const TOPIC_DURATION_SEC = 30 * 60;
 const TOTAL_DURATION_SEC = 2 * 60 * 60;
 
-const examData = [
+const engineerExamData = [
   {
     name: "Pattern Recognition",
     questions: [
@@ -85,22 +85,107 @@ const examData = [
   },
 ];
 
+const tpmExamData = [
+  {
+    name: "Logical and Numerical Reasoning",
+    questions: [
+      { prompt: "A team of 6 engineers completes a feature in 12 days. To finish the same work in 8 days, how many engineers are needed?", options: ["7", "8", "9", "10"], correctIndex: 2, explanation: "Total work = 6×12 = 72 person-days. Engineers needed = 72/8 = 9." },
+      { prompt: "A SaaS product has 500 users in January and grows 20% each month. How many users are there in March?", options: ["600", "700", "720", "750"], correctIndex: 2, explanation: "500 × 1.2 × 1.2 = 720 users." },
+      { prompt: "A PM has a $120K budget. Three features cost $45K, $38K, and $52K respectively. What is the maximum number of features that can be funded?", options: ["1", "2", "3", "All three"], correctIndex: 1, explanation: "$45K + $38K = $83K which is within budget. Adding $52K gives $135K which exceeds it, so 2 features maximum." },
+      { prompt: "Team velocity is 40 story points per sprint. The backlog contains 320 story points. How many sprints are needed?", options: ["6", "7", "8", "9"], correctIndex: 2, explanation: "320 / 40 = 8 sprints." },
+      { prompt: "Monthly churn rate is 5%. Starting with 2000 subscribers, how many remain after 2 months?", options: ["1800", "1805", "1808", "1900"], correctIndex: 1, explanation: "2000 × 0.95 × 0.95 = 2000 × 0.9025 = 1805." },
+      { prompt: "Revenue grew from $2M to $3.5M over 2 years. What is the approximate CAGR?", options: ["25%", "32%", "37%", "50%"], correctIndex: 1, explanation: "CAGR = √(3.5/2) − 1 = √1.75 − 1 ≈ 1.3229 − 1 ≈ 32%." },
+      { prompt: "3 out of every 25 users report a bug. With 10,000 users, how many bug reports are expected?", options: ["1,000", "1,200", "1,500", "2,000"], correctIndex: 1, explanation: "(3/25) × 10,000 = 1,200." },
+      { prompt: "Version A converts 8% of 600 users. Version B converts 10% of 450 users. Which version has more absolute conversions?", options: ["Version A", "Version B", "Equal", "Cannot determine"], correctIndex: 0, explanation: "Version A: 0.08 × 600 = 48. Version B: 0.10 × 450 = 45. Version A has more conversions." },
+      { prompt: "If 'All high-priority features are in Sprint 1' is true, which conclusion must also be true?", options: ["All Sprint 1 features are high priority", "If a feature is not in Sprint 1, it is not high priority", "Some Sprint 1 features are low priority", "Sprint 1 has no low-priority features"], correctIndex: 1, explanation: "The contrapositive of 'high-priority → Sprint 1' is 'not in Sprint 1 → not high-priority', which is logically equivalent." },
+      { prompt: "A document review requires 3 sequential reviews: A (2 days), B (3 days), C (4 days). Total review time is:", options: ["6 days", "7 days", "8 days", "9 days"], correctIndex: 3, explanation: "Sequential: 2 + 3 + 4 = 9 days." },
+      { prompt: "A PM spends 40% of an 8-hour day on product work. A feature requires 80 hours of PM product work. How many workdays are needed?", options: ["15", "20", "25", "30"], correctIndex: 2, explanation: "PM product hours per day = 0.4 × 8 = 3.2 hours. Days = 80 / 3.2 = 25." },
+      { prompt: "Feature W depends on Y, and Y depends on X shipped in Q1. Earliest quarter W can ship is:", options: ["Q2", "Q3", "Q4", "Q5"], correctIndex: 1, explanation: "X→Q1, Y→Q2 (depends on X), W→Q3 (depends on Y). Earliest W can ship is Q3." },
+      { prompt: "An A/B test runs for 2 weeks. Week 1: 200 users, 10% conversion. Week 2: 300 users, 8% conversion. Overall conversion rate is:", options: ["8.8%", "9.0%", "9.2%", "9.5%"], correctIndex: 0, explanation: "Total conversions = 20 + 24 = 44. Total users = 500. Rate = 44/500 = 8.8%." },
+      { prompt: "If 5 out of 8 user interviews mention the same pain point, what percentage is that?", options: ["55%", "60%", "62.5%", "65%"], correctIndex: 2, explanation: "5/8 = 0.625 = 62.5%." },
+      { prompt: "A sprint backlog has 10 stories: 4 at 3 points, 3 at 5 points, 3 at 8 points. Total sprint points:", options: ["45", "51", "55", "63"], correctIndex: 1, explanation: "4×3 + 3×5 + 3×8 = 12 + 15 + 24 = 51." },
+    ],
+  },
+  {
+    name: "Discovery and Strategy",
+    questions: [
+      { prompt: "In Jobs-to-be-Done (JTBD) theory, a 'job' refers to:", options: ["A coding task assigned to a developer", "The progress a customer wants to make in their life", "A feature on the product backlog", "A sprint story point"], correctIndex: 1, explanation: "JTBD defines a 'job' as the underlying progress a customer is trying to make in their situation." },
+      { prompt: "TAM (Total Addressable Market) represents:", options: ["The company's current annual revenue", "The maximum revenue opportunity if 100% market share is captured", "The market segment currently served", "The product's development budget"], correctIndex: 1, explanation: "TAM is the total revenue opportunity available if a product achieves 100% market share." },
+      { prompt: "A product has high user satisfaction scores but low market adoption. This most likely indicates a problem with:", options: ["Product quality", "Product-market fit", "Engineering execution", "User interface design"], correctIndex: 1, explanation: "High satisfaction but low adoption suggests the product serves its users well but hasn't found the right market or distribution channel." },
+      { prompt: "The 'Blue Ocean Strategy' advises companies to:", options: ["Out-compete rivals in existing markets", "Create uncontested market space", "Reduce costs across all operations", "Copy the market leader's strategy"], correctIndex: 1, explanation: "Blue Ocean Strategy focuses on creating new market space where competition is irrelevant." },
+      { prompt: "Porter's Five Forces does NOT include:", options: ["Supplier bargaining power", "Buyer bargaining power", "Threat of substitutes", "Employee satisfaction"], correctIndex: 3, explanation: "Porter's Five Forces are: competitive rivalry, supplier power, buyer power, threat of new entrants, and threat of substitutes. Employee satisfaction is not a force." },
+      { prompt: "In a SWOT analysis, a new well-funded competitor entering your market is classified as a:", options: ["Strength", "Weakness", "Opportunity", "Threat"], correctIndex: 3, explanation: "External negative factors are classified as Threats in a SWOT analysis." },
+      { prompt: "Net Promoter Score (NPS) is calculated as:", options: ["Average of all survey scores", "% Promoters minus % Detractors", "% Promoters plus % Passives", "Total responses divided by 10"], correctIndex: 1, explanation: "NPS = % Promoters (score 9-10) − % Detractors (score 0-6)." },
+      { prompt: "A company launches a product without first validating whether customers want it. This violates core principles of:", options: ["Agile manifesto", "Lean startup methodology", "Waterfall methodology", "Design system thinking"], correctIndex: 1, explanation: "Lean Startup emphasizes validated learning: build-measure-learn to avoid building products nobody wants." },
+      { prompt: "Which research method is best suited for understanding the 'why' behind user behavior?", options: ["A/B testing", "User interviews", "Click-through analytics", "Heatmaps"], correctIndex: 1, explanation: "User interviews reveal qualitative insights into motivations, context, and reasoning that quantitative methods cannot." },
+      { prompt: "A 'competitive moat' in product strategy refers to:", options: ["A product's marketing budget", "A sustainable competitive advantage that is hard to replicate", "The product's feature list", "Company brand colors and design"], correctIndex: 1, explanation: "A competitive moat is a durable advantage (network effects, switching costs, IP) that protects against competition." },
+      { prompt: "OKR stands for:", options: ["Operational Key Responsibilities", "Objectives and Key Results", "Organizational Knowledge Repository", "Output and Key Reviews"], correctIndex: 1, explanation: "OKR = Objectives (qualitative goals) and Key Results (measurable outcomes to track progress)." },
+      { prompt: "Product-market fit is best evidenced by:", options: ["A large engineering team", "High NPS scores and strong organic growth", "Receiving venture capital funding", "Positive employee morale"], correctIndex: 1, explanation: "PMF shows when users love the product enough to recommend it, driving retention and organic growth." },
+      { prompt: "In product discovery, a problem statement should focus on:", options: ["The proposed technical solution", "The user's unmet need or pain point", "The team's current capabilities", "A competitor's feature set"], correctIndex: 1, explanation: "Problem statements should be solution-agnostic and center on the user's actual need." },
+      { prompt: "A 'pivot' in product development means:", options: ["Fixing a critical production bug", "A structured course correction to test a new hypothesis", "Adding a major new feature", "Launching the product in a new geography"], correctIndex: 1, explanation: "A pivot is a deliberate change to a core business or product hypothesis while retaining lessons learned." },
+      { prompt: "Which user research technique involves observing users in their natural environment?", options: ["Usability testing in a lab", "Contextual inquiry / field study", "Online surveys", "Card sorting"], correctIndex: 1, explanation: "Contextual inquiry involves observing and interviewing users in their real environment to capture authentic behavior and context." },
+    ],
+  },
+  {
+    name: "Prioritization and Roadmapping",
+    questions: [
+      { prompt: "In the RICE scoring framework, 'I' stands for:", options: ["Innovation", "Impact", "Investment", "Integration"], correctIndex: 1, explanation: "RICE = Reach × Impact × Confidence / Effort. 'I' stands for Impact." },
+      { prompt: "RICE score is calculated as:", options: ["(Reach + Impact + Confidence) / Effort", "(Reach × Impact × Confidence) / Effort", "Reach × Impact / (Confidence + Effort)", "(Reach + Impact) × Confidence / Effort"], correctIndex: 1, explanation: "RICE = (Reach × Impact × Confidence) / Effort. Higher score = higher priority." },
+      { prompt: "In MoSCoW prioritization, 'S' stands for:", options: ["Strategy", "Serious", "Should have", "Sprint"], correctIndex: 2, explanation: "MoSCoW = Must have, Should have, Could have, Won't have." },
+      { prompt: "Feature A has a RICE score of 100; Feature B has a RICE score of 150. With capacity for only one, which should be prioritized?", options: ["Feature A (lower scope risk)", "Feature B (higher RICE score)", "Neither; more data needed", "Ask the CEO"], correctIndex: 1, explanation: "Higher RICE score indicates greater expected impact per unit of effort, so Feature B is prioritized." },
+      { prompt: "In the Kano model, features that cause dissatisfaction when absent but go unnoticed when present are called:", options: ["Performance features", "Excitement (Delighters)", "Basic / Must-be features", "Indifferent features"], correctIndex: 2, explanation: "Must-be (Basic) features are taken for granted by users; their absence causes dissatisfaction but their presence doesn't delight." },
+      { prompt: "A 'Now-Next-Later' roadmap is most useful for:", options: ["Communicating exact delivery dates", "Conveying relative time horizons without committing to dates", "Assigning sprint tasks", "Documenting technical architecture"], correctIndex: 1, explanation: "Now-Next-Later communicates sequence and rough priority without over-committing to specific dates." },
+      { prompt: "Technical debt should be prioritized when it:", options: ["Has no observable user impact", "Significantly slows down the team's ability to deliver new features", "Is requested by an investor", "Was introduced more than a year ago"], correctIndex: 1, explanation: "Technical debt that degrades team velocity has a direct business cost and warrants explicit prioritization." },
+      { prompt: "Opportunity scoring ranks features by:", options: ["Importance to users minus current satisfaction", "Development effort plus complexity", "Expected revenue divided by cost", "Time-to-market estimate"], correctIndex: 0, explanation: "Opportunity Score = Importance − Satisfaction. High importance + low satisfaction = high opportunity to address." },
+      { prompt: "An outcome-based roadmap prioritizes:", options: ["Shipping a predefined list of features", "Achieving measurable user or business outcomes", "Following competitor release schedules", "Filling all four calendar quarters evenly"], correctIndex: 1, explanation: "Outcome-based roadmaps focus teams on the desired change in behavior or metric, not just feature delivery." },
+      { prompt: "A feature scores 8 on business value (weight 0.6) and 6 on user value (weight 0.4). Its weighted score is:", options: ["6.8", "7.0", "7.2", "7.6"], correctIndex: 2, explanation: "Weighted score = 8 × 0.6 + 6 × 0.4 = 4.8 + 2.4 = 7.2." },
+      { prompt: "When stakeholders request conflicting feature priorities, a PM should:", options: ["Implement all requests in the order received", "Implement whichever stakeholder has the highest seniority", "Align priorities to company strategy and OKRs", "Delay all work until the conflict is resolved"], correctIndex: 2, explanation: "Prioritization decisions should be anchored to strategy and measurable goals, not internal politics." },
+      { prompt: "The 'ice box' in product management refers to:", options: ["Cold storage for physical hardware", "A repository of ideas deprioritized indefinitely", "Bugs found in production", "Features already released"], correctIndex: 1, explanation: "The ice box holds ideas not actively prioritized but preserved for future consideration." },
+      { prompt: "A dependency-first roadmap approach means:", options: ["Features are ordered by team preference", "Features that unblock other features are scheduled first", "Features are listed alphabetically", "Features are randomly sequenced"], correctIndex: 1, explanation: "Scheduling dependency-enabling features first prevents downstream blocking and keeps delivery flow smooth." },
+      { prompt: "Which roadmap format is most appropriate for external stakeholder communication?", options: ["Detailed sprint plan", "Feature-level roadmap with exact dates", "Theme-based roadmap with time horizons", "Technical architecture plan"], correctIndex: 2, explanation: "Theme-based roadmaps communicate direction and priorities without over-committing to specific features or dates." },
+      { prompt: "Story point estimation primarily measures:", options: ["Exact calendar time to complete a task", "Relative effort and complexity compared to a baseline", "Business value of a feature", "Number of lines of code"], correctIndex: 1, explanation: "Story points are a relative measure of effort/complexity, not calendar time, enabling team-calibrated estimation." },
+    ],
+  },
+  {
+    name: "Requirements Definition",
+    questions: [
+      { prompt: "A well-formed user story follows the format:", options: ["'Feature X with specification Y'", "'As a [user], I want [goal] so that [benefit]'", "'Task: implement X by date Y'", "'Module X with function Y'"], correctIndex: 1, explanation: "The canonical user story template captures who (role), what (goal), and why (benefit/value)." },
+      { prompt: "Acceptance criteria define:", options: ["Code-level implementation details", "The conditions under which a feature is considered complete and accepted", "Individual team member responsibilities", "Budget allocation per feature"], correctIndex: 1, explanation: "Acceptance criteria specify the observable, testable conditions a feature must satisfy to be accepted by the product owner." },
+      { prompt: "Which of the following is a non-functional requirement (NFR)?", options: ["'User can log in with email and password'", "'The page must load within 2 seconds'", "'User can search the product catalog'", "'System sends a confirmation email on order'"], correctIndex: 1, explanation: "NFRs specify system qualities (performance, security, scalability) rather than specific behaviors." },
+      { prompt: "The primary audience of a Product Requirements Document (PRD) is:", options: ["End users and customers", "Engineering and design teams", "Board of directors", "Customer support team"], correctIndex: 1, explanation: "A PRD is written to help engineering and design teams understand what to build and why." },
+      { prompt: "An 'edge case' in requirements refers to:", options: ["The most frequent user scenario", "A rare or extreme condition that the system must handle correctly", "A performance load test", "A stakeholder interview finding"], correctIndex: 1, explanation: "Edge cases are boundary conditions or unusual inputs that occur rarely but must be accounted for." },
+      { prompt: "The phrase 'The system shall...' is characteristic of:", options: ["User stories", "Functional requirements", "Business cases", "Technical architecture docs"], correctIndex: 1, explanation: "'Shall' statements are the standard IEEE format for specifying functional requirements." },
+      { prompt: "Ambiguous requirements most directly lead to:", options: ["Faster feature delivery", "Misaligned implementation and rework", "Better code quality", "Reduced testing effort"], correctIndex: 1, explanation: "Ambiguity forces teams to make assumptions, often resulting in implementations that don't match stakeholder intent." },
+      { prompt: "A 'Definition of Done' (DoD) in Agile is:", options: ["The product roadmap for the quarter", "A shared checklist that must be satisfied for a story to be considered complete", "The release notes document", "The list of features in the next sprint"], correctIndex: 1, explanation: "The DoD ensures consistent quality by requiring all team-agreed criteria (tested, reviewed, deployed, etc.) to be met." },
+      { prompt: "Which technique helps uncover missing requirements using concrete examples and scenarios?", options: ["UML class diagrams", "Example Mapping / BDD (Behaviour-Driven Development)", "Gantt charts", "SWOT analysis"], correctIndex: 1, explanation: "Example Mapping structures concrete examples (rules, scenarios, questions) to discover gaps and ambiguities before development." },
+      { prompt: "In MoSCoW, 'W' (Won't have) items should:", options: ["Be implemented in the current release", "Be considered for a future release but not now", "Never be built under any circumstances", "Be immediately escalated to leadership"], correctIndex: 1, explanation: "'Won't have this time' signals items explicitly out of scope for the current iteration but may be revisited later." },
+      { prompt: "A persona in requirements definition is:", options: ["A real user's account in the system", "A fictional, data-informed representation of a user archetype", "A legal entity or registered customer", "A developer alias used in version control"], correctIndex: 1, explanation: "Personas are composite characters built from research data to represent distinct user groups and guide requirement decisions." },
+      { prompt: "Requirements traceability means:", options: ["Requirements have sequential ID numbers", "Each requirement can be linked to its source, related tests, and implemented features", "Requirements are stored in a cloud database", "Requirements are written in plain English"], correctIndex: 1, explanation: "Traceability creates verifiable links between requirements, their origins, design decisions, code, and tests." },
+      { prompt: "In the story 'As an admin, I want to reset any user's password so that I can help locked-out users', the benefit clause is:", options: ["'As an admin'", "'I want to reset any user's password'", "'so that I can help locked-out users'", "'admin' and 'locked-out users'"], correctIndex: 2, explanation: "The 'so that...' clause captures the benefit and justifies why the feature has value." },
+      { prompt: "A good acceptance criterion should be:", options: ["Vague to allow developer flexibility", "Specific, unambiguous, and independently testable", "Written by developers to reflect implementation choices", "Technology-specific to guide coding decisions"], correctIndex: 1, explanation: "Acceptance criteria must be testable and unambiguous so QA can objectively determine pass/fail." },
+      { prompt: "A 'constraint' in requirements definition is:", options: ["An optional enhancement for future releases", "A restriction that limits the available solution space", "A fictional user archetype", "A test case for edge scenarios"], correctIndex: 1, explanation: "Constraints (e.g., must use existing database, must comply with GDPR) are non-negotiable boundaries the solution must respect." },
+    ],
+  },
+];
+
+let activeExamData = null;
+
 const state = {
   started: false,
   topicIndex: 0,
   questionIndex: 0,
   totalRemaining: TOTAL_DURATION_SEC,
   topicRemaining: TOPIC_DURATION_SEC,
-  answers: examData.map((topic) => Array(topic.questions.length).fill(null)),
-  scores: examData.map(() => 0),
+  answers: [],
+  scores: [],
   timerId: null,
 };
 
-const startScreen = document.getElementById("start-screen");
+const roleSelectScreen = document.getElementById("role-select-screen");
 const examScreen = document.getElementById("exam-screen");
 const topicResultScreen = document.getElementById("topic-result-screen");
 const finalResultScreen = document.getElementById("final-result-screen");
-const startBtn = document.getElementById("start-btn");
+
 const topicTitle = document.getElementById("topic-title");
 const questionCounter = document.getElementById("question-counter");
 const topicTimerEl = document.getElementById("topic-timer");
@@ -111,12 +196,20 @@ const optionsEl = document.getElementById("options");
 const feedbackEl = document.getElementById("feedback");
 const nextBtn = document.getElementById("next-btn");
 
-startBtn.addEventListener("click", startExam);
 nextBtn.addEventListener("click", goNext);
+document.getElementById("engineer-tile").addEventListener("click", () => startExam("engineer"));
+document.getElementById("tpm-tile").addEventListener("click", () => startExam("tpm"));
 
-function startExam() {
+function startExam(role) {
+  activeExamData = role === "tpm" ? tpmExamData : engineerExamData;
   state.started = true;
-  startScreen.classList.add("hidden");
+  state.topicIndex = 0;
+  state.questionIndex = 0;
+  state.totalRemaining = TOTAL_DURATION_SEC;
+  state.topicRemaining = TOPIC_DURATION_SEC;
+  state.answers = activeExamData.map((topic) => Array(topic.questions.length).fill(null));
+  state.scores = activeExamData.map(() => 0);
+  roleSelectScreen.classList.add("hidden");
   topicResultScreen.classList.add("hidden");
   finalResultScreen.classList.add("hidden");
   examScreen.classList.remove("hidden");
@@ -165,7 +258,7 @@ function formatSec(sec) {
 }
 
 function getCurrentTopic() {
-  return examData[state.topicIndex];
+  return activeExamData[state.topicIndex];
 }
 
 function getCurrentQuestion() {
@@ -242,7 +335,7 @@ function getTopicStats(topicIdx) {
   const answerRow = state.answers[topicIdx];
   const attempted = answerRow.filter((v) => v !== null).length;
   const correct = state.scores[topicIdx];
-  const total = examData[topicIdx].questions.length;
+  const total = activeExamData[topicIdx].questions.length;
   const wrong = attempted - correct;
   const unattempted = total - attempted;
   const accuracy = attempted ? Math.round((correct / attempted) * 100) : 0;
@@ -271,7 +364,7 @@ function showTopicResult(timeExpired) {
   const btn = document.createElement("button");
   btn.className = "btn primary";
 
-  if (state.topicIndex < examData.length - 1 && state.totalRemaining > 0) {
+  if (state.topicIndex < activeExamData.length - 1 && state.totalRemaining > 0) {
     btn.textContent = "Continue to Next Topic";
     btn.addEventListener("click", () => {
       state.topicIndex += 1;
@@ -300,7 +393,7 @@ function finishExam(reason) {
   let totalCorrect = 0;
   let totalQuestions = 0;
 
-  const rows = examData
+  const rows = activeExamData
     .map((topic, idx) => {
       const stats = getTopicStats(idx);
       totalCorrect += stats.correct;

@@ -8,16 +8,33 @@
 </head>
 <body>
   <main class="app-shell">
-    <section id="start-screen" class="card">
+    <section id="role-select-screen" class="card">
       <h1>Mock Assessment Exam</h1>
-      <p class="subtitle">4 topics • 60 questions • 2 hours total</p>
-      <ul class="meta-list">
-        <li>Pattern Recognition: 15 questions (30 min)</li>
-        <li>Logical and Numerical Reasoning: 15 questions (30 min)</li>
-        <li>Sequential Process Reasoning: 15 questions (30 min)</li>
-        <li>Computational Reasoning: 15 questions (30 min)</li>
-      </ul>
-      <button id="start-btn" class="btn primary">Start Exam</button>
+      <p class="subtitle">Select your role to begin</p>
+      <div class="role-tiles">
+        <button class="role-tile" id="engineer-tile">
+          <h2>Engineer</h2>
+          <p class="tile-meta">4 topics &bull; 60 questions &bull; 2 hours</p>
+          <ul class="meta-list">
+            <li>Pattern Recognition (30 min)</li>
+            <li>Logical and Numerical Reasoning (30 min)</li>
+            <li>Sequential Process Reasoning (30 min)</li>
+            <li>Computational Reasoning (30 min)</li>
+          </ul>
+          <span class="btn primary tile-btn">Start Exam &rarr;</span>
+        </button>
+        <button class="role-tile" id="tpm-tile">
+          <h2>Technical Product Manager</h2>
+          <p class="tile-meta">4 topics &bull; 60 questions &bull; 2 hours</p>
+          <ul class="meta-list">
+            <li>Logical and Numerical Reasoning (30 min)</li>
+            <li>Discovery and Strategy (30 min)</li>
+            <li>Prioritization and Roadmapping (30 min)</li>
+            <li>Requirements Definition (30 min)</li>
+          </ul>
+          <span class="btn primary tile-btn">Start Exam &rarr;</span>
+        </button>
+      </div>
     </section>
 
     <section id="exam-screen" class="card hidden">

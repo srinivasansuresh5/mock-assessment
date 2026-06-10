@@ -214,9 +214,57 @@ h3 {
   background: #f9fafb;
 }
 
+/* Role selection tiles */
+.role-tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.role-tile {
+  border: 2px solid var(--border);
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.role-tile:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(15, 118, 110, 0.12);
+}
+
+.role-tile h2 {
+  margin: 0 0 6px;
+  color: var(--primary);
+}
+
+.tile-meta {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0 0 10px;
+}
+
+.tile-btn {
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: 10px;
+  pointer-events: none;
+}
+
 @media (max-width: 700px) {
   .card {
     padding: 16px;
+  }
+
+  .role-tiles {
+    grid-template-columns: 1fr;
   }
 
   .exam-header {
